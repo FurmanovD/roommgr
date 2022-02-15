@@ -1,0 +1,25 @@
+package commoncfg
+
+import (
+	"strconv"
+)
+
+const (
+	DefaultMySQLPort = 3306
+)
+
+// MySqlConnectionString constructs a MySQL connection string from configuration parameters
+func (c *SqlDBConfig) MySqlConnectionString() string {
+
+	// port, 3306 by default
+	p := c.Port
+	if p <= 0 {
+		p = DefaultMySQLPort
+	}
+	// host, 127.0.0.1 by default
+	h := c.Host
+	if h == "" {
+		h = "127.0.0.1"
+	}
+	return c.User + ":" + c.Password + "@tcp(" + h + ":" + strconv.Itoa(p) + ")/" + c.Database
+}

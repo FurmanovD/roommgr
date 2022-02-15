@@ -1,0 +1,21 @@
+pkgname = "automodel"
+output = "internal/automodel"
+wipe  = true
+no-tests = true
+
+[mysql]
+    dbname="roommgr"
+    host="localhost"
+    port=3306
+    user="roommgr"
+    pass="password"
+    sslmode="false"
+    testdbname="unit_test"
+    skipsqlcmd=true
+    whitelist = [
+        "companies",
+        "users",
+        "rooms",
+        "reservations",
+    ]
+
