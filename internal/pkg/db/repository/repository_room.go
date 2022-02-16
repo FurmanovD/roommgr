@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 
@@ -28,13 +29,12 @@ func NewRoomRepository(db sqldb.SqlDB) RoomRepository {
 
 // ================= interface methods =================================================
 func (r *roomRepositoryImpl) GetRoom(ctx context.Context, id int) (*automodel.Room, error) {
-
 	room, err := automodel.Rooms(
 		automodel.RoomWhere.ID.EQ(id),
 	).One(ctx, r.db.Connection())
 
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			return nil, nil
 		}
 		return nil, err
@@ -44,7 +44,6 @@ func (r *roomRepositoryImpl) GetRoom(ctx context.Context, id int) (*automodel.Ro
 }
 
 func (r *roomRepositoryImpl) GetRooms(ctx context.Context, filter RoomFilter) (automodel.RoomSlice, error) {
-
 	var qm []qm.QueryMod
 	if !filter.IncludeDeleted {
 		qm = append(qm, automodel.RoomWhere.DeletedAt.EQ(null.TimeFromPtr(nil)))
@@ -54,7 +53,7 @@ func (r *roomRepositoryImpl) GetRooms(ctx context.Context, filter RoomFilter) (a
 	).All(ctx, r.db.Connection())
 
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			return nil, nil
 		}
 		return nil, err
@@ -68,7 +67,6 @@ func (r *roomRepositoryImpl) GetReservation(
 	executor Transaction,
 	id int,
 ) (*ReservationJoinUserJoinRoom, error) {
-
 	var exec boil.ContextExecutor
 	if executor != nil {
 		exec = executor.Executor()
@@ -97,7 +95,6 @@ func (r *roomRepositoryImpl) GetRoomReservations(
 	roomID int,
 	startFrom time.Time,
 ) ([]*ReservationJoinUserJoinRoom, error) {
-
 	var exec boil.ContextExecutor
 	if executor != nil {
 		exec = executor.Executor()
@@ -124,12 +121,11 @@ func (r *roomRepositoryImpl) GetRoomReservations(
 func (r *roomRepositoryImpl) GetDBReservations(
 	ctx context.Context,
 	executor Transaction,
-	ID int,
+	id int,
 	userID int,
 	roomID int,
 	startingFrom time.Time,
 ) (automodel.ReservationSlice, error) {
-
 	var exec boil.ContextExecutor
 	if executor != nil {
 		exec = executor.Executor()
@@ -138,8 +134,8 @@ func (r *roomRepositoryImpl) GetDBReservations(
 	}
 
 	var qmods []qm.QueryMod
-	if ID > 0 {
-		qmods = append(qmods, automodel.ReservationWhere.ID.EQ(ID))
+	if id > 0 {
+		qmods = append(qmods, automodel.ReservationWhere.ID.EQ(id))
 	}
 	if roomID > 0 {
 		qmods = append(qmods, automodel.ReservationWhere.RoomID.EQ(roomID))
@@ -156,7 +152,7 @@ func (r *roomRepositoryImpl) GetDBReservations(
 	).All(ctx, exec)
 
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			return nil, nil
 		}
 		return nil, err
@@ -170,7 +166,6 @@ func (r *roomRepositoryImpl) InsertReservation(
 	executor Transaction,
 	reservation *automodel.Reservation,
 ) (*automodel.Reservation, error) {
-
 	var exec boil.ContextExecutor
 	if executor != nil {
 		exec = executor.Executor()
@@ -196,7 +191,6 @@ func (r *roomRepositoryImpl) DeleteReservation(
 	executor Transaction,
 	reservationID int,
 ) error {
-
 	var exec boil.ContextExecutor
 	if executor != nil {
 		exec = executor.Executor()
@@ -229,7 +223,6 @@ func (r *roomRepositoryImpl) getReservationJoins(
 	executor boil.ContextExecutor,
 	queryMods ...qm.QueryMod,
 ) ([]*ReservationJoinUserJoinRoom, error) {
-
 	var joins []*ReservationJoinUserJoinRoom
 
 	queryModsAll := append(r.getReservationQueryMods(), queryMods...)
@@ -248,7 +241,6 @@ func (r *roomRepositoryImpl) getReservationJoins(
 }
 
 func (r *roomRepositoryImpl) getReservationQueryMods() []qm.QueryMod {
-
 	fields := r.generateColumnNames(
 		map[string][]string{
 			automodel.TableNames.Reservations: {
@@ -275,18 +267,9 @@ func (r *roomRepositoryImpl) getReservationQueryMods() []qm.QueryMod {
 			},
 		})
 
-	// fields := r.generateColumnNames(
-	// 	map[string][]string{
-	// 		automodel.TableNames.Reservations: {"*"},
-	// 		automodel.TableNames.Users:        {"*"},
-	// 		automodel.TableNames.Rooms:        {"*"},
-	// 		automodel.TableNames.Companies:    {"*"},
-	// 	})
-
 	return []qm.QueryMod{
 		// fields
 		qm.Select(fields...),
-		//qm.Select("`reservations`.*", "`rooms`.*", "`users`.*"),
 		// From
 		qm.From(automodel.TableNames.Reservations),
 		// Joins
@@ -319,7 +302,6 @@ func (r *roomRepositoryImpl) getReservationQueryMods() []qm.QueryMod {
 }
 
 func (r *roomRepositoryImpl) generateColumnNames(names map[string][]string) []string {
-
 	res := make([]string, 0)
 	for table, columns := range names {
 		for _, column := range columns {

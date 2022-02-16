@@ -3,10 +3,14 @@ package weberror
 import (
 	"net/http"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/FurmanovD/roommgr/internal/app/service"
 	api "github.com/FurmanovD/roommgr/pkg/api/v1"
-	"github.com/sirupsen/logrus"
 )
+
+// TODO: implement .Is(...) usage instead of direct error values comparison to avoid missing in case there is
+// a case of error wrapping.
 
 const (
 	NoError      = 0
@@ -31,7 +35,6 @@ type codeAndResponse struct {
 
 var (
 	// NOTE: Add new service errors to return/wrap out here:
-
 	serviceErrorToWebResponse = map[error]codeAndResponse{
 		error(nil): {
 			http.StatusOK,
@@ -81,7 +84,6 @@ var (
 )
 
 func GetWebResponse(serviceError error, details string) (int, *api.CommonResponse) {
-
 	if serviceError == service.ErrInvalidRequest {
 		return http.StatusBadRequest, api.GetCommonResponseError(
 			InvalidRequest, details,

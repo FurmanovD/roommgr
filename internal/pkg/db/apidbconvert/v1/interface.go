@@ -7,8 +7,7 @@ import (
 )
 
 type APIDBConverter interface {
-
-	// these functions convert a DB structure(s) to API object(s)
+	// these functions convert a DB structure(s) to API object(s) and vice versa
 	ToAPIRoom(room *automodel.Room) *api.Room
 	ToAPIRooms(rooms automodel.RoomSlice) api.Rooms
 

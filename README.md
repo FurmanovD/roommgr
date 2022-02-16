@@ -1,16 +1,20 @@
 # RoomManager service
 
 ## Business problem
-Two companies, COKE and PEPSI, are sharing an office building but as they are
-competitors, they don’t trust each other. Tomorrow is COLA day (for one day), that the
-two companies are celebrating. They are gathering a number of business partners in
-the building. In order to optimize space utilization, they have decided to set-up a joint
-booking system where any user can book one of the 20 meeting rooms available, 10
-from each company (C01, C02, ..., C10 and P01, P02, ...., P10).
+Two companies, COKE and PEPSI, are sharing an office building but as they are competitors, they don’t trust each other. Tomorrow is COLA day (for one day), that the two companies are celebrating. They are gathering a number of business partners in the building. In order to optimize space utilization, they have decided to set-up a joint booking system where any user can book one of the 20 meeting rooms available, 10 from each company **(C01, C02, ..., C10 and P01, P02, ...., P10)**.
+
 The booking system has the following functionalities:
-● Users can see meeting rooms availability
-● Users can book meeting rooms by the hour (first come first served)
-● Users can cancel their own reservations
+
+- Users can see meeting rooms availability
+- Users can book meeting rooms by the hour (first come first served)
+- Users can cancel their own reservations
+
+## Config
+Service's configuration example is in the file: **./config/example-config.ini**
+
+**NOTE:** For now it contains configuration **secrets** that **must not be used** in production and should be changed to loading secrets from external secure storage like Hashicorp Vault.
+
+To run the service locally, create a copy of **example-config.ini** and rename it to **config.ini**
 
 ## Run
 To run the system you need to run the following command: `make run`
@@ -22,9 +26,6 @@ To access the service API, send HTTP requests to the address: `localhost:8081`
 To debug from IDE, you can run DB container alone by run command: `make run-deps`
 
 Stop all the fun: `make stop`
-
-## Config
-Service's configuration is in the file: **./config/config.ini**
 
 ## Initial DB data
 After the very first run of the Database, a manual operation of "migration applying" is required.

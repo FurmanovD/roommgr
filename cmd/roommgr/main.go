@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 
 	"github.com/FurmanovD/roommgr/internal/app/service"
 	"github.com/FurmanovD/roommgr/internal/app/webapp"
@@ -21,9 +21,6 @@ const (
 	// program's exit codes
 	errCodeConfigError       = 1
 	errCodeDBConnectionError = 2
-	// errCodeServiceInitError     = 3 // TODO!!!
-	// errCodeSyncerInitError      = 4
-	// errCodePrometheusStartError = 5
 	errCodeWebSrvListenError = 9
 )
 
@@ -38,6 +35,8 @@ var (
 )
 
 func init() {
+	logrus.SetFormatter(&logrus.JSONFormatter{})
+
 	buildInfo = fmt.Sprintf(
 		"Version: %v BuildTime: %v GitCommit: %v",
 		Version,
@@ -45,7 +44,7 @@ func init() {
 		GitCommit,
 	)
 
-	log.Println(buildInfo)
+	logrus.Info(buildInfo)
 }
 
 func main() {
@@ -53,30 +52,28 @@ func main() {
 	// Parse flags/config file to populate config
 	cfg, err := config.ParseConfig(os.Args[1:])
 	if err != nil {
-		fmt.Printf("configuration read error: %+v", err)
+		fmt.Printf("Configuration load error: %+v", err)
 		os.Exit(errCodeConfigError)
 	}
 	initLogging(cfg.LogLevel)
-	log.Infof("Logger initialized with LogLevel: %v", cfg.LogLevel)
-
-	log.Info(buildInfo)
+	logrus.Infof("Logger initialized with LogLevel: %v", cfg.LogLevel)
 
 	// create a DB connection
-	log.Info("Creating a DB connection...")
+	logrus.Info("Creating a DB connection...")
 	dbInstance, err := initDBConnection(sqldb.NewDB(), &cfg.SQLConfig)
 	if err != nil {
-		log.Errorf("Creating DB connection failed", err)
+		logrus.Errorf("Creating DB connection failed: %v", err)
 		os.Exit(errCodeDBConnectionError)
 	}
 
 	// Create a service instance that will do all required operations to DB, storages etc.
-	log.Infof("Creating service instance")
+	logrus.Infof("Creating service instance")
 	roommgrService := service.NewService(
 		cfg.Service,
 		repository.NewRepository(dbInstance),
 		apidbconvert.NewAPIDBConverter(),
 	)
-	log.Infof("Starting a web server on port %d", cfg.APIPort)
+	logrus.Infof("Starting a web server on port %d", cfg.APIPort)
 
 	// create a web server instances to serve HTTP endpoints
 	webServer := webapp.NewServer(roommgrService)
@@ -84,7 +81,7 @@ func main() {
 
 	err = webServer.ListenAndServe(cfg.APIPort)
 	if err != nil {
-		log.Errorf("Web server start failed", err)
+		logrus.Errorf("Web server start failed: %v", err)
 		os.Exit(errCodeWebSrvListenError)
 	}
 }
@@ -92,23 +89,22 @@ func main() {
 // initLogging establishes process logging level
 func initLogging(logLevel string) {
 
-	log.SetFormatter(&log.JSONFormatter{})
 	// sets the logging level in app
-	level, err := log.ParseLevel(strings.ToLower(logLevel))
+	level, err := logrus.ParseLevel(strings.ToLower(logLevel))
 	if err != nil {
-		level = log.InfoLevel
+		level = logrus.InfoLevel
 	}
-	log.SetLevel(level)
+	logrus.SetLevel(level)
 }
 
-func initDBConnection(db sqldb.SqlDB, dbConfig *commoncfg.SqlDBConfig) (sqldb.SqlDB, error) {
+func initDBConnection(db sqldb.SqlDB, dbConfig *commoncfg.SQLDBConfig) (sqldb.SqlDB, error) {
 
 	err := db.Connect(
-		dbConfig.MySqlConnectionString(),
+		dbConfig.MySQLConnectionString(),
 		dbConfig.MaxConnections,
 	)
 	if err != nil {
-		return nil, fmt.Errorf("connecting read DB error: %w", err)
+		return nil, err
 	}
 
 	return db, nil

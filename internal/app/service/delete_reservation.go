@@ -12,7 +12,6 @@ func (s *serviceImpl) DeleteReservation(
 	userID int,
 	reservationID int,
 ) error {
-
 	// check if reservation is made by the same user TODO: or check privileges
 	dbReservations, err := s.db.Rooms.GetDBReservations(
 		ctx,
@@ -23,7 +22,7 @@ func (s *serviceImpl) DeleteReservation(
 		time.Time{},
 	)
 	if err != nil {
-		logrus.Errorf("reading reservation[ID:%d] failed: %w", reservationID, err)
+		logrus.Errorf("reading reservation[ID:%d] failed: %v", reservationID, err)
 		return ErrDBError
 	}
 	if len(dbReservations) == 0 {

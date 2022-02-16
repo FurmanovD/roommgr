@@ -29,7 +29,6 @@ func NewRoomHandler(svc service.RoomManagerService) RoomHandler {
 
 // ListRooms is a GET /api/v1/rooms handler
 func (h *roomHandlerImpl) ListRooms(c *gin.Context) {
-
 	rooms, err := h.service.ListRooms(c.Request.Context())
 	if err != nil {
 		c.JSON(
@@ -41,13 +40,12 @@ func (h *roomHandlerImpl) ListRooms(c *gin.Context) {
 	//return rooms array
 	c.JSON(
 		http.StatusOK,
-		api.GetRoomsResponse(rooms),
+		rooms,
 	)
 }
 
 // GetRoom is a GET /api/v1/rooms/:roomID handler
 func (h *roomHandlerImpl) GetRoom(c *gin.Context) {
-
 	roomID, err := strconv.Atoi(c.Param(v1.KeyRoomID))
 	if err != nil || roomID == 0 {
 		c.JSON(
@@ -76,7 +74,6 @@ func (h *roomHandlerImpl) GetRoom(c *gin.Context) {
 
 // GetRoomReservations is a GET /api/v1/rooms/:roomID/reservations handler
 func (h *roomHandlerImpl) GetRoomReservations(c *gin.Context) {
-
 	roomID, err := strconv.Atoi(c.Param(v1.KeyRoomID))
 	if err != nil || roomID == 0 {
 		c.JSON(
@@ -99,13 +96,12 @@ func (h *roomHandlerImpl) GetRoomReservations(c *gin.Context) {
 	//return room object
 	c.JSON(
 		http.StatusOK,
-		api.ReservationsResponse(reservations),
+		reservations,
 	)
 }
 
 // GetReservation is a GET /api/v1/rooms/-/reservations/:reservationID handler
 func (h *roomHandlerImpl) GetReservation(c *gin.Context) {
-
 	reservationID, err := strconv.Atoi(c.Param(v1.KeyReservationID))
 	if err != nil || reservationID == 0 {
 		c.JSON(
@@ -134,7 +130,6 @@ func (h *roomHandlerImpl) GetReservation(c *gin.Context) {
 
 // CreateReservation is a POST /api/v1/rooms/-/reservations/ handler
 func (h *roomHandlerImpl) CreateReservation(c *gin.Context) {
-
 	request, err := parseAndValidateCreateReservationRequest(c)
 	if err != nil {
 		c.JSON(
@@ -169,7 +164,6 @@ func (h *roomHandlerImpl) CreateReservation(c *gin.Context) {
 
 // CreateReservation is a DELETE /api/v1/rooms/-/reservations/:id handler
 func (h *roomHandlerImpl) DeleteReservation(c *gin.Context) {
-
 	reservationID, err := strconv.Atoi(c.Param(v1.KeyReservationID))
 	if err != nil || reservationID == 0 {
 		c.JSON(
@@ -204,10 +198,9 @@ func (h *roomHandlerImpl) DeleteReservation(c *gin.Context) {
 }
 
 func parseAndValidateCreateReservationRequest(c *gin.Context) (*api.CreateReservationRequest, error) {
-
 	request := api.CreateReservationRequest{}
 	if err := c.BindJSON(&request); err != nil {
-		return nil, fmt.Errorf("invalid POST data structure: %v", err)
+		return nil, fmt.Errorf("invalid POST data structure: %w", err)
 	}
 
 	v := validate.Struct(request)
@@ -226,10 +219,9 @@ func parseAndValidateCreateReservationRequest(c *gin.Context) (*api.CreateReserv
 }
 
 func parseAndValidateDeleteReservationRequest(c *gin.Context) (*api.DeleteReservationRequest, error) {
-
 	request := api.DeleteReservationRequest{}
 	if err := c.BindJSON(&request); err != nil {
-		return nil, fmt.Errorf("invalid POST data structure: %v", err)
+		return nil, fmt.Errorf("invalid POST data structure: %w", err)
 	}
 
 	v := validate.Struct(request)

@@ -8,9 +8,8 @@ const (
 	DefaultMySQLPort = 3306
 )
 
-// MySqlConnectionString constructs a MySQL connection string from configuration parameters
-func (c *SqlDBConfig) MySqlConnectionString() string {
-
+// MySQLConnectionString constructs a MySQL connection string from configuration parameters
+func (c *SQLDBConfig) MySQLConnectionString() string {
 	// port, 3306 by default
 	p := c.Port
 	if p <= 0 {

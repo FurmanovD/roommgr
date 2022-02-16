@@ -1,6 +1,8 @@
 # github.com/FurmanovD/go-kit v0.0.0-20220212161946-838b38549856
 ## explicit
 github.com/FurmanovD/go-kit/randomstring
+# github.com/davecgh/go-spew v1.1.1
+github.com/davecgh/go-spew/spew
 # github.com/facebookgo/clock v0.0.0-20150410010913-600d898af40a
 ## explicit
 github.com/facebookgo/clock
@@ -74,11 +76,16 @@ github.com/pelletier/go-toml
 ## explicit
 github.com/peterbourgon/ff
 github.com/peterbourgon/ff/fftoml
+# github.com/pmezard/go-difflib v1.0.0
+github.com/pmezard/go-difflib/difflib
 # github.com/sirupsen/logrus v1.8.1
 ## explicit
 github.com/sirupsen/logrus
 # github.com/spf13/cast v1.4.1
 github.com/spf13/cast
+# github.com/stretchr/testify v1.7.0
+## explicit
+github.com/stretchr/testify/assert
 # github.com/ugorji/go/codec v1.1.7
 github.com/ugorji/go/codec
 # github.com/volatiletech/inflect v0.0.1
@@ -140,3 +147,5 @@ google.golang.org/protobuf/runtime/protoimpl
 google.golang.org/protobuf/types/descriptorpb
 # gopkg.in/yaml.v2 v2.4.0
 gopkg.in/yaml.v2
+# gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
+gopkg.in/yaml.v3

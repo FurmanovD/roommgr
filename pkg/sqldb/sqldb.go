@@ -8,9 +8,9 @@ import (
 )
 
 const (
-	connStringParams = "parseTime=true"
-
 	DriverMySQL = "mysql"
+
+	connStringParams = "parseTime=true"
 )
 
 // SqlDB interface for db
@@ -53,7 +53,6 @@ func (d *db) ConnectionString() string {
 }
 
 func (d *db) createConnection(connStr string, params string, maxConn int) (dbconn, error) {
-
 	fullConnStr := connStr
 	if strings.Contains(fullConnStr, "?") {
 		if fullConnStr[len(fullConnStr)-1] != '?' {

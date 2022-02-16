@@ -27,7 +27,7 @@ type RoomRepository interface {
 	GetDBReservations(
 		ctx context.Context,
 		executor Transaction,
-		ID int,
+		id int,
 		userID int,
 		roomID int,
 		startingFrom time.Time,

@@ -4,8 +4,9 @@ import (
 	"context"
 	"time"
 
-	api "github.com/FurmanovD/roommgr/pkg/api/v1"
 	"github.com/sirupsen/logrus"
+
+	api "github.com/FurmanovD/roommgr/pkg/api/v1"
 )
 
 func (s *serviceImpl) ListRoomReservations(ctx context.Context, roomID int) (api.Reservations, error) {
@@ -16,7 +17,7 @@ func (s *serviceImpl) ListRoomReservations(ctx context.Context, roomID int) (api
 		time.Time{},
 	)
 	if err != nil {
-		logrus.Error("Error listing reservations: %v", err)
+		logrus.Errorf("Error listing reservations: %v", err)
 		return nil, ErrDBError
 	}
 	return s.converter.ToAPIReservations(reservations), nil

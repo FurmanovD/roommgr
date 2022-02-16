@@ -1,10 +1,11 @@
 package apidbconvert
 
 import (
+	"github.com/volatiletech/null/v8"
+
 	"github.com/FurmanovD/roommgr/internal/pkg/db/automodel"
 	"github.com/FurmanovD/roommgr/internal/pkg/db/repository"
 	api "github.com/FurmanovD/roommgr/pkg/api/v1"
-	"github.com/volatiletech/null/v8"
 )
 
 type apiDBConverterImpl struct {

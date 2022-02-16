@@ -1,7 +1,7 @@
 package commoncfg
 
 // DBConfig contains parameters to connect to an SQL DB
-type SqlDBConfig struct {
+type SQLDBConfig struct {
 	Host           string `json:"host,omitempty"`
 	Port           int    `json:"port,omitempty"`
 	User           string `json:"user,omitempty"`

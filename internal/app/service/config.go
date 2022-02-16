@@ -1,5 +1,5 @@
 package service
 
-// ServiceConfig contains parameters to manage a service behavior
-type ServiceConfig struct {
+// Config contains parameters to manage a service behavior
+type Config struct {
 }

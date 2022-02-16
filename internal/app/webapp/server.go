@@ -34,6 +34,6 @@ func (s *webServer) ListenAndServe(port int) error {
 	if s.ginServer == nil {
 		return errors.New("underlying gin server has not been initialized")
 	}
-	s.ginServer.ListenAndServe(port)
-	return nil
+
+	return s.ginServer.ListenAndServe(port)
 }

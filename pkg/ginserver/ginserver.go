@@ -41,7 +41,6 @@ type ginServer struct {
 
 // New server
 func NewGinServer(isDebug bool) GinServer {
-
 	mode := gin.ReleaseMode
 	if isDebug {
 		mode = gin.DebugMode
@@ -130,7 +129,7 @@ func (s *ginServer) ServeEx(srv *http.Server) error {
 
 		s.httpServer.SetKeepAlivesEnabled(false)
 		if err = s.httpServer.Shutdown(context.Background()); err != nil {
-			s.log.Error("error during server shutdown: %v", err)
+			s.log.Errorf("error during server shutdown: %v", err)
 		}
 		s.cancel()
 	}()

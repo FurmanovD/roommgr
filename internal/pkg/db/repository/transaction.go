@@ -23,7 +23,6 @@ func NewTxCreator(db sqldb.SqlDB) TxCreator {
 }
 
 func (txc *txCreatorImpl) CreateTransaction(ctx context.Context) (Transaction, error) {
-
 	tx, err := txc.db.Connection().BeginTx(ctx, nil)
 	if err != nil {
 		return nil, err

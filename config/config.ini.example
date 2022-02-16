@@ -1,9 +1,9 @@
 [roommgr]
-# DB_HOST = "roommgr-db"
-DB_HOST = "localhost"
+DB_HOST = "roommgr-db"
 # DB_PORT = 3306
 DB_NAME = "roommgr"
 DB_USER = "roommgr"
+# TODO: load all secrets from Vault or another secure system
 DB_PASS = "password"
 # DB_MAX_CONNECTIONS = 10
 

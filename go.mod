@@ -15,6 +15,7 @@ require (
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/peterbourgon/ff v1.7.1
 	github.com/sirupsen/logrus v1.8.1
+	github.com/stretchr/testify v1.7.0
 	github.com/volatiletech/null/v8 v8.1.2
 	github.com/volatiletech/sqlboiler/v4 v4.8.6
 	github.com/volatiletech/strmangle v0.0.1

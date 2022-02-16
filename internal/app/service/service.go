@@ -6,13 +6,13 @@ import (
 )
 
 type serviceImpl struct {
-	cfg       ServiceConfig
+	cfg       Config
 	db        *repository.Repository
 	converter apidbconvert.APIDBConverter
 }
 
 func NewService(
-	cfg ServiceConfig,
+	cfg Config,
 	db *repository.Repository,
 	converter apidbconvert.APIDBConverter,
 ) RoomManagerService {
