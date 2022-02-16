@@ -39,6 +39,6 @@ RUN apk update && apk add --no-cache tar gzip libstdc++
 RUN mkdir /app && chown 65534:65534 -R /app
 USER 65534
 
-COPY --from=builder /project/${APP_NAME} /app
+COPY --from=builder /project/roommgr /app
 
-ENTRYPOINT ["/app/${APP_NAME}", "-config=/app/config.ini"] 
+ENTRYPOINT ["/app/roommgr", "-config=/app/config.ini"] 
