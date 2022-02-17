@@ -1,6 +1,8 @@
 package repository
 
-import "github.com/FurmanovD/roommgr/internal/pkg/db/automodel"
+import (
+	"github.com/FurmanovD/roommgr/internal/pkg/db/automodel"
+)
 
 // SQL Joins
 

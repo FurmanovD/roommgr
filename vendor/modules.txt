@@ -1,8 +1,14 @@
 # github.com/FurmanovD/go-kit v0.0.0-20220212161946-838b38549856
 ## explicit
 github.com/FurmanovD/go-kit/randomstring
+github.com/FurmanovD/go-kit/testing/testvalue
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
+# github.com/ericlagergren/decimal v0.0.0-20181231230500-73749d4874d5
+github.com/ericlagergren/decimal
+github.com/ericlagergren/decimal/internal/arith
+github.com/ericlagergren/decimal/internal/arith/checked
+github.com/ericlagergren/decimal/internal/c
 # github.com/facebookgo/clock v0.0.0-20150410010913-600d898af40a
 ## explicit
 github.com/facebookgo/clock
@@ -40,6 +46,9 @@ github.com/go-playground/validator/v10
 github.com/go-sql-driver/mysql
 # github.com/gofrs/uuid v3.2.0+incompatible
 github.com/gofrs/uuid
+# github.com/golang/mock v1.6.0
+## explicit
+github.com/golang/mock/gomock
 # github.com/golang/protobuf v1.5.2
 github.com/golang/protobuf/proto
 # github.com/gookit/filter v1.1.2

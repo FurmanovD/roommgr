@@ -11,6 +11,7 @@ require (
 	github.com/friendsofgo/errors v0.9.2
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-sql-driver/mysql v1.5.0
+	github.com/golang/mock v1.6.0
 	github.com/gookit/validate v1.2.11
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/peterbourgon/ff v1.7.1

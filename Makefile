@@ -90,4 +90,15 @@ test:
 models:
 	sqlboiler -c sqlboiler.toml -d -o ./internal/pkg/db/automodel/ mysql
 
-.PHONY: test run stop models
+
+mocks:
+	go get -u github.com/golang/mock/gomock
+	rm -f ./test/mocks/*.go
+
+	mockgen -destination=test/mocks/repository_room_mock.go -package=mocks -source=internal/pkg/db/repository/room_interface.go 
+	mockgen -destination=test/mocks/repository_user_mock.go -package=mocks -source=internal/pkg/db/repository/user_interface.go 
+	mockgen -destination=test/mocks/repository_user_mock.go -package=mocks -source=internal/pkg/db/repository/transaction_interface.go 
+	mockgen -destination=test/mocks/apidbconverter_mock.go -package=mocks -source=internal/pkg/db/apidbconvert/v1/interface.go APIDBTransformer
+
+.PHONY: appbuilder-rebuild image-build image-rebuild image-clean image-push build clean run run-prebuilt run-deps test-docker stop test models mocks
+
