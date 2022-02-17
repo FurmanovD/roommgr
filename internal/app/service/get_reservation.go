@@ -14,5 +14,8 @@ func (s *serviceImpl) GetReservation(ctx context.Context, id int) (*api.Reservat
 		logrus.Errorf("Error getting reservation[ID:%d]: %v", id, err)
 		return nil, ErrDBError
 	}
+	if reservation == nil {
+		return nil, ErrNotFound
+	}
 	return s.converter.ToAPIReservation(reservation), nil
 }
