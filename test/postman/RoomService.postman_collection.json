@@ -1,0 +1,81 @@
+{
+	"info": {
+		"_postman_id": "93da1fd3-c592-4328-b564-13b19a1d5290",
+		"name": "RoomService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET /rooms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8081/api/v1/rooms"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /rooms/:roomId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8081/api/v1/rooms/1"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /rooms/:roomId/reservations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8081/api/v1/rooms/1/reservations"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /rooms/-/reservations",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_token\": 3,\n    \"room_id\": 1,\n    \"start_time\": \"2022-02-17T08:00:00Z\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/api/v1/rooms/-/reservations"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /rooms/-/reservations/:rsrvID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_token\": 3\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/api/v1/rooms/-/reservations/6"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /rooms/:roomId/reservations/:rsrvID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8081/api/v1/rooms/-/reservations/1"
+			},
+			"response": []
+		}
+	]
+}
